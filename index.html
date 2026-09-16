@@ -13,10 +13,59 @@
 </head>
 <body class="min-h-screen flex flex-col md:flex-row">
 
+  <!-- 會員登入 / 註冊彈窗 (未登入時強制或提示登入) -->
+  <div id="authModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl space-y-6">
+      <div class="text-center space-y-2">
+        <div class="w-12 h-12 bg-stone-900 text-white rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md">
+          <i data-lucide="user-check" class="w-6 h-6"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-stone-900" id="authModalTitle">會員登入</h2>
+        <p class="text-xs text-stone-400">登入專屬帳號以記錄你的讀書足跡與進度</p>
+      </div>
+
+      <!-- 登入表單 -->
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-stone-600 mb-1">帳號 / 使用者名稱</label>
+          <input type="text" id="loginUsername" required placeholder="請輸入帳號" class="w-full border border-stone-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-stone-500 focus:outline-none bg-stone-50/50">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-stone-600 mb-1">密碼</label>
+          <input type="password" id="loginPassword" required placeholder="請輸入密碼" class="w-full border border-stone-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-stone-500 focus:outline-none bg-stone-50/50">
+        </div>
+        <button type="submit" class="w-full bg-stone-900 hover:bg-stone-800 text-white font-medium py-3 rounded-xl text-sm transition shadow-sm">立即登入</button>
+        <div class="text-center pt-2">
+          <button type="button" onclick="toggleAuthMode('register')" class="text-xs text-stone-500 hover:text-stone-900 underline">還沒有帳號？前往註冊</button>
+        </div>
+      </form>
+
+      <!-- 註冊表單 (預設隱藏) -->
+      <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+        <div>
+          <label class="block text-xs font-semibold text-stone-600 mb-1">你的稱呼 / 暱稱</label>
+          <input type="text" id="regDisplayName" required placeholder="例如：讀書夥伴" class="w-full border border-stone-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-stone-500 focus:outline-none bg-stone-50/50">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-stone-600 mb-1">自訂帳號</label>
+          <input type="text" id="regUsername" required placeholder="請設定英數帳號" class="w-full border border-stone-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-stone-500 focus:outline-none bg-stone-50/50">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-stone-600 mb-1">自訂密碼</label>
+          <input type="password" id="regPassword" required placeholder="請設定密碼" class="w-full border border-stone-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-stone-500 focus:outline-none bg-stone-50/50">
+        </div>
+        <button type="submit" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-medium py-3 rounded-xl text-sm transition shadow-sm">建立帳號並登入</button>
+        <div class="text-center pt-2">
+          <button type="button" onclick="toggleAuthMode('login')" class="text-xs text-stone-500 hover:text-stone-900 underline">已有帳號？返回登入</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- 側邊導覽列 -->
   <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-stone-200 flex flex-col justify-between shrink-0 sticky top-0 z-30">
     <div class="p-6">
-      <div class="flex items-center space-x-2.5 mb-8">
+      <div class="flex items-center space-x-2.5 mb-6">
         <div class="bg-stone-800 text-white p-2 rounded-xl">
           <i data-lucide="book-open-check" class="w-5 h-5"></i>
         </div>
@@ -26,6 +75,25 @@
         </div>
       </div>
 
+      <!-- 會員狀態卡片 -->
+      <div class="mb-6 p-3.5 bg-stone-50 border border-stone-200 rounded-2xl flex items-center justify-between">
+        <div class="flex items-center space-x-3 overflow-hidden">
+          <div class="w-9 h-9 rounded-full bg-stone-800 text-white flex items-center justify-center font-bold text-sm shrink-0" id="userAvatar">
+            U
+          </div>
+          <div class="overflow-hidden">
+            <h4 class="text-sm font-bold text-stone-800 truncate" id="userDisplayName">訪客</h4>
+            <span class="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 已登入
+            </span>
+          </div>
+        </div>
+        <button onclick="logout()" title="登出" class="text-stone-400 hover:text-rose-600 transition p-1">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- 導覽分頁按鈕 -->
       <nav class="space-y-1.5 flex md:block overflow-x-auto pb-2 md:pb-0 gap-1 md:gap-0">
         <button onclick="switchTab('overview')" id="tab-overview" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap text-stone-600 hover:bg-stone-50">
           <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
@@ -46,6 +114,7 @@
       </nav>
     </div>
 
+    <!-- 考試倒數捷徑 -->
     <div class="hidden md:block p-4 m-4 bg-stone-100 border border-stone-200 rounded-2xl">
       <div class="flex justify-between items-center mb-1">
         <span class="text-xs font-bold text-stone-800 truncate" id="sideExamTitle">考試倒數</span>
@@ -57,7 +126,6 @@
 
   <!-- 主要內容區 -->
   <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-8">
-    
     <header class="flex justify-between items-center mb-8 pb-4 border-b border-stone-200">
       <div>
         <span class="text-xs font-semibold text-stone-400 uppercase tracking-wider" id="headerCategory">STUDY PLANNER</span>
@@ -66,10 +134,8 @@
       <div class="text-sm font-medium text-stone-600 bg-white px-3.5 py-1.5 rounded-xl border border-stone-200 shadow-sm" id="currentDateDisplay"></div>
     </header>
 
-    <!-- 1. 總覽與足跡頁面 -->
+    <!-- 1. 總覽與足跡 -->
     <section id="page-overview" class="space-y-8 tab-page">
-      
-      <!-- 統計數據三大卡片 -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
           <div class="text-3xl font-bold text-stone-800 mb-1" id="statTotalHours">0.0</div>
@@ -85,15 +151,12 @@
         </div>
       </div>
 
-      <!-- 年度讀書足跡 (GitHub 熱力圖風格) -->
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200 space-y-4">
         <h3 class="text-base font-bold text-stone-800 flex items-center gap-2">
           <i data-lucide="activity" class="w-5 h-5 text-stone-600"></i> 年度讀書足跡
         </h3>
         <div class="overflow-x-auto pb-2">
-          <div id="heatmapContainer" class="min-w-[700px]">
-            <!-- 動態渲染熱力圖 -->
-          </div>
+          <div id="heatmapContainer" class="min-w-[700px]"></div>
         </div>
         <div class="flex items-center justify-end space-x-2 text-xs text-stone-400 pt-2 border-t border-stone-100">
           <span>少</span>
@@ -106,7 +169,6 @@
         </div>
       </div>
 
-      <!-- 今日目標與任務摘要 -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200 flex flex-col justify-between">
           <div>
@@ -138,13 +200,10 @@
           <ul id="overviewTodoList" class="space-y-2"></ul>
         </div>
       </div>
-
     </section>
 
-    <!-- 2. 讀書項目與科目管理頁面 -->
+    <!-- 2. 讀書項目與任務 -->
     <section id="page-subjects" class="space-y-8 tab-page hidden">
-      
-      <!-- 新增科目表單 (依照圖片設計) -->
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200 space-y-4">
         <h3 class="text-base font-bold text-stone-800">新增讀書科目</h3>
         <form onsubmit="saveSubject(event)" class="space-y-4">
@@ -163,7 +222,6 @@
             </div>
           </div>
 
-          <!-- 顏色選擇 -->
           <div>
             <label class="block text-xs font-medium text-stone-500 mb-2">標籤顏色</label>
             <div class="flex items-center space-x-3" id="colorPickerContainer">
@@ -184,18 +242,14 @@
         </form>
       </div>
 
-      <!-- 我的科目列表 -->
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200 space-y-4">
         <div>
           <h3 class="text-base font-bold text-stone-800">我的科目</h3>
           <p class="text-xs text-stone-400 mt-0.5">進度以「本年度」累計讀書時數計算</p>
         </div>
-        <div id="subjectCardsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- 動態載入科目卡片 -->
-        </div>
+        <div id="subjectCardsList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
       </div>
 
-      <!-- 今日 To-do 任務管理 -->
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
         <h3 class="text-base font-bold text-stone-800 mb-4 flex items-center gap-2">
           <i data-lucide="check-square" class="w-5 h-5 text-stone-600"></i> 今日 To-do 任務
@@ -206,10 +260,9 @@
         </form>
         <ul id="todoList" class="space-y-2 max-h-[300px] overflow-y-auto pr-1"></ul>
       </div>
-
     </section>
 
-    <!-- 3. 月計畫頁面 -->
+    <!-- 3. 月計畫 -->
     <section id="page-calendar" class="space-y-6 tab-page hidden">
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
         <div class="flex flex-wrap justify-between items-center mb-4 gap-2">
@@ -231,7 +284,7 @@
       </div>
     </section>
 
-    <!-- 4. 專注計時頁面 -->
+    <!-- 4. 專注計時 -->
     <section id="page-timer" class="space-y-6 tab-page hidden">
       <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200 max-w-xl mx-auto flex flex-col items-center">
         <div class="w-full flex justify-between items-center mb-6">
@@ -264,10 +317,9 @@
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- 日曆點擊新增 Modal -->
+  <!-- 日曆點擊新增排程 Modal -->
   <div id="datePlanModal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl space-y-4">
       <div class="flex justify-between items-center">
@@ -288,7 +340,11 @@
   </div>
 
   <script>
-    const STORAGE_KEY = 'studyflow_app_data_v4';
+    // --- 會員系統資料庫 ---
+    const USERS_DB_KEY = 'studyflow_users_db_v1';
+    const CURRENT_USER_KEY = 'studyflow_current_user_v1';
+
+    let currentUser = null; // 當前登入的使用者帳號
     let appData = {
       exam: { title: '重要考試 / 檢定', date: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0] },
       dailyGoalHours: 4,
@@ -297,34 +353,165 @@
       todos: [],
       subjects: [],
       plans: {},
-      dailyLogs: {} // 記錄每日秒數 { '2026-09-16': 7200 }
+      dailyLogs: {}
     };
 
     let selectedColor = '#4a453f';
     let currentCalendarDate = new Date();
     let selectedDateForModal = null;
 
-    function loadData() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        try {
-          appData = { ...appData, ...JSON.parse(saved) };
-          if (!appData.dailyLogs) appData.dailyLogs = {};
-          if (!appData.plans) appData.plans = {};
-          const today = new Date().toISOString().split('T')[0];
-          if (appData.todayDate !== today) {
-            appData.todayDate = today;
-            appData.todayStudySeconds = 0;
-            saveData();
-          }
-        } catch (e) { console.error(e); }
+    // --- 會員認證邏輯 ---
+    function getUsersDB() {
+      const data = localStorage.getItem(USERS_DB_KEY);
+      return data ? JSON.parse(data) : {};
+    }
+
+    function saveUsersDB(db) {
+      localStorage.setItem(USERS_DB_KEY, JSON.stringify(db));
+    }
+
+    function checkAuth() {
+      const savedUser = localStorage.getItem(CURRENT_USER_KEY);
+      if (savedUser) {
+        const users = getUsersDB();
+        if (users[savedUser]) {
+          currentUser = savedUser;
+          loadUserData();
+          updateUserUI(users[savedUser].displayName);
+          return;
+        }
+      }
+      // 未登入，彈出登入框
+      openAuthModal();
+    }
+
+    function openAuthModal() {
+      document.getElementById('authModal').classList.remove('hidden');
+      document.getElementById('authModal').classList.add('flex');
+    }
+
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.add('hidden');
+      document.getElementById('authModal').classList.remove('flex');
+    }
+
+    function toggleAuthMode(mode) {
+      if (mode === 'register') {
+        document.getElementById('authModalTitle').textContent = '註冊專屬會員';
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('registerForm').classList.remove('hidden');
+      } else {
+        document.getElementById('authModalTitle').textContent = '會員登入';
+        document.getElementById('registerForm').classList.add('hidden');
+        document.getElementById('loginForm').classList.remove('hidden');
+      }
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const displayName = document.getElementById('regDisplayName').value.trim();
+      const username = document.getElementById('regUsername').value.trim().toLowerCase();
+      const password = document.getElementById('regPassword').value;
+
+      if (!displayName || !username || !password) return;
+
+      const users = getUsersDB();
+      if (users[username]) {
+        alert('此帳號已存在，請直接登入或更換帳號！');
+        return;
+      }
+
+      // 建立新用戶與預設資料
+      users[username] = {
+        displayName,
+        password,
+        data: {
+          exam: { title: '重要考試 / 檢定', date: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0] },
+          dailyGoalHours: 4,
+          todayDate: new Date().toISOString().split('T')[0],
+          todayStudySeconds: 0,
+          todos: [],
+          subjects: [],
+          plans: {},
+          dailyLogs: {}
+        }
+      };
+
+      saveUsersDB(users);
+      loginUser(username, displayName);
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value.trim().toLowerCase();
+      const password = document.getElementById('loginPassword').value;
+
+      const users = getUsersDB();
+      if (!users[username] || users[username].password !== password) {
+        alert('帳號或密碼錯誤，請重新確認！');
+        return;
+      }
+
+      loginUser(username, users[username].displayName);
+    }
+
+    function loginUser(username, displayName) {
+      currentUser = username;
+      localStorage.setItem(CURRENT_USER_KEY, username);
+      closeAuthModal();
+      loadUserData();
+      updateUserUI(displayName);
+      refreshAllUI();
+    }
+
+    function logout() {
+      if (confirm('確定要登出當前帳號嗎？')) {
+        localStorage.removeItem(CURRENT_USER_KEY);
+        currentUser = null;
+        openAuthModal();
+      }
+    }
+
+    function updateUserUI(displayName) {
+      document.getElementById('userDisplayName').textContent = displayName || currentUser;
+      document.getElementById('userAvatar').textContent = (displayName || currentUser).charAt(0).toUpperCase();
+    }
+
+    // --- 資料存取 (關聯當前使用者) ---
+    function loadUserData() {
+      if (!currentUser) return;
+      const users = getUsersDB();
+      if (users[currentUser] && users[currentUser].data) {
+        appData = { ...appData, ...users[currentUser].data };
+        const today = new Date().toISOString().split('T')[0];
+        if (appData.todayDate !== today) {
+          appData.todayDate = today;
+          appData.todayStudySeconds = 0;
+          saveData();
+        }
       }
     }
 
     function saveData() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+      if (!currentUser) return;
+      const users = getUsersDB();
+      if (users[currentUser]) {
+        users[currentUser].data = appData;
+        saveUsersDB(users);
+      }
     }
 
+    function refreshAllUI() {
+      renderOverviewAndCountdown();
+      renderStats();
+      renderHeatmap();
+      renderTodos();
+      renderSubjectCards();
+      renderSubjectsDropdown();
+      lucide.createIcons();
+    }
+
+    // --- 分頁切換 ---
     function switchTab(tabId) {
       document.querySelectorAll('.tab-page').forEach(p => p.classList.add('hidden'));
       document.querySelectorAll('aside nav button').forEach(b => {
@@ -348,44 +535,33 @@
       document.getElementById('headerTitle').textContent = titles[tabId][0];
       document.getElementById('headerCategory').textContent = titles[tabId][1];
 
-      if (tabId === 'overview') {
-        renderHeatmap();
-        renderStats();
-      }
+      if (tabId === 'overview') { renderHeatmap(); renderStats(); }
       if (tabId === 'calendar') renderCalendar();
       if (tabId === 'subjects') renderSubjectCards();
     }
 
-    // --- 統計與熱力圖計算 ---
+    // --- 統計與熱力圖 ---
     function renderStats() {
       let totalSecs = 0;
       let studyDaysCount = 0;
       const logs = appData.dailyLogs || {};
       
       Object.values(logs).forEach(sec => {
-        if (sec > 0) {
-          totalSecs += sec;
-          studyDaysCount++;
-        }
+        if (sec > 0) { totalSecs += sec; studyDaysCount++; }
       });
 
-      // 計算連續天數
       let streak = 0;
       let d = new Date();
       while (true) {
         const dateStr = d.toISOString().split('T')[0];
         if (logs[dateStr] && logs[dateStr] > 0) {
-          streak++;
-          d.setDate(d.getDate() - 1);
+          streak++; d.setDate(d.getDate() - 1);
         } else {
-          // 如果今天還沒讀，檢查昨天
           if (streak === 0 && dateStr === new Date().toISOString().split('T')[0]) {
             d.setDate(d.getDate() - 1);
             const yestStr = d.toISOString().split('T')[0];
             if (logs[yestStr] && logs[yestStr] > 0) {
-              streak++;
-              d.setDate(d.getDate() - 1);
-              continue;
+              streak++; d.setDate(d.getDate() - 1); continue;
             }
           }
           break;
@@ -400,7 +576,6 @@
     function renderHeatmap() {
       const container = document.getElementById('heatmapContainer');
       container.innerHTML = '';
-
       const year = new Date().getFullYear();
       const startDate = new Date(year, 0, 1);
       const endDate = new Date(year, 11, 31);
@@ -409,7 +584,6 @@
       gridDiv.className = "grid grid-flow-col grid-rows-7 gap-1.5";
 
       let curr = new Date(startDate);
-      // 補齊第一週前面的空白
       for (let i = 0; i < curr.getDay(); i++) {
         const emptyBox = document.createElement('div');
         emptyBox.className = "w-3.5 h-3.5 rounded-sm opacity-0";
@@ -441,9 +615,7 @@
       selectedColor = hex;
       document.querySelectorAll('.color-btn').forEach(btn => {
         btn.classList.remove('ring-2', 'ring-offset-2', 'ring-stone-800');
-        if (btn.dataset.color === hex) {
-          btn.classList.add('ring-2', 'ring-offset-2', 'ring-stone-800');
-        }
+        if (btn.dataset.color === hex) btn.classList.add('ring-2', 'ring-offset-2', 'ring-stone-800');
       });
     }
 
@@ -483,7 +655,6 @@
       appData.subjects.forEach(subj => {
         const spentH = ((subj.spentSeconds || 0) / 3600).toFixed(1);
         const percent = Math.min(100, Math.round((spentH / subj.targetHours) * 100)) || 0;
-
         let dateStrHtml = subj.targetDate ? `考試日期：${subj.targetDate}` : '無設定考試日';
 
         const card = document.createElement('div');
@@ -527,8 +698,7 @@
       select.innerHTML = '<option value="">（不指定）</option>';
       appData.subjects.forEach(s => {
         const opt = document.createElement('option');
-        opt.value = s.id;
-        opt.textContent = s.name;
+        opt.value = s.id; opt.textContent = s.name;
         if (s.id === current) opt.selected = true;
         select.appendChild(opt);
       });
@@ -688,7 +858,7 @@
       }
     }
 
-    // --- To-do 任務管理 ---
+    // --- To-do 任務 ---
     function renderTodos() {
       const listEl = document.getElementById('todoList');
       const overviewList = document.getElementById('overviewTodoList');
@@ -742,7 +912,7 @@
       renderTodos();
     }
 
-    // --- 計時器邏輯 ---
+    // --- 計時器 ---
     let timerInterval = null, timerSeconds = 0, isRunning = false;
     function formatTime(totalSec) {
       const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
@@ -768,12 +938,10 @@
       if (isRunning) toggleTimer();
       appData.todayStudySeconds += timerSeconds;
 
-      // 累積到當日足跡 logs
       const todayStr = new Date().toISOString().split('T')[0];
       if (!appData.dailyLogs) appData.dailyLogs = {};
       appData.dailyLogs[todayStr] = (appData.dailyLogs[todayStr] || 0) + timerSeconds;
 
-      // 累積到科目時數
       const subjectId = document.getElementById('timerSubjectSelect').value;
       if (subjectId) {
         const subj = appData.subjects.find(s => s.id === subjectId);
@@ -783,6 +951,8 @@
       saveData();
       renderOverviewAndCountdown();
       renderSubjectCards();
+      renderStats();
+      renderHeatmap();
       
       timerSeconds = 0; updateTimerUI();
       document.getElementById('startTimerText').textContent = '開始專注';
@@ -796,13 +966,9 @@
       }
     }
 
-    // --- 初始化 ---
+    // --- 頁面啟動 ---
     window.addEventListener('DOMContentLoaded', () => {
-      loadData();
-      renderOverviewAndCountdown();
-      renderTodos();
-      renderSubjectCards();
-      renderSubjectsDropdown();
+      checkAuth();
       updateTimerUI();
       switchTab('overview');
       lucide.createIcons();
