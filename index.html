@@ -8,172 +8,223 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap');
-    body { font-family: 'Noto Sans TC', sans-serif; }
+    body { font-family: 'Noto Sans TC', sans-serif; background-color: #fcfbf9; color: #4a453f; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col md:flex-row">
+<body class="min-h-screen flex flex-col md:flex-row">
 
   <!-- 側邊導覽列 -->
-  <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between shrink-0 sticky top-0 z-30">
+  <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-stone-200 flex flex-col justify-between shrink-0 sticky top-0 z-30">
     <div class="p-6">
       <div class="flex items-center space-x-2.5 mb-8">
-        <div class="bg-indigo-600 text-white p-2 rounded-xl">
+        <div class="bg-stone-800 text-white p-2 rounded-xl">
           <i data-lucide="book-open-check" class="w-5 h-5"></i>
         </div>
         <div>
-          <h1 class="font-bold text-slate-900 tracking-tight leading-none text-lg">StudyFlow</h1>
-          <span class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">My Study Space</span>
+          <h1 class="font-bold text-stone-900 tracking-tight leading-none text-lg">StudyFlow</h1>
+          <span class="text-[10px] uppercase tracking-widest text-stone-400 font-semibold">My Study Space</span>
         </div>
       </div>
 
       <nav class="space-y-1.5 flex md:block overflow-x-auto pb-2 md:pb-0 gap-1 md:gap-0">
-        <button onclick="switchTab('overview')" id="tab-overview" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap text-slate-600 hover:bg-slate-50">
+        <button onclick="switchTab('overview')" id="tab-overview" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap text-stone-600 hover:bg-stone-50">
           <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-          <span>總覽</span>
+          <span>總覽與足跡</span>
         </button>
-        <button onclick="switchTab('subjects')" id="tab-subjects" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap text-slate-600 hover:bg-slate-50">
+        <button onclick="switchTab('subjects')" id="tab-subjects" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap text-stone-600 hover:bg-stone-50">
           <i data-lucide="check-square" class="w-4 h-4"></i>
-          <span>讀書項目</span>
+          <span>讀書項目與任務</span>
         </button>
-        <button onclick="switchTab('calendar')" id="tab-calendar" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap text-slate-600 hover:bg-slate-50">
+        <button onclick="switchTab('calendar')" id="tab-calendar" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap text-stone-600 hover:bg-stone-50">
           <i data-lucide="calendar-days" class="w-4 h-4"></i>
           <span>月計畫</span>
         </button>
-        <button onclick="switchTab('timer')" id="tab-timer" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap text-slate-600 hover:bg-slate-50">
+        <button onclick="switchTab('timer')" id="tab-timer" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap text-stone-600 hover:bg-stone-50">
           <i data-lucide="timer" class="w-4 h-4"></i>
           <span>專注計時</span>
         </button>
       </nav>
     </div>
 
-    <div class="hidden md:block p-4 m-4 bg-indigo-50/60 border border-indigo-100 rounded-2xl">
+    <div class="hidden md:block p-4 m-4 bg-stone-100 border border-stone-200 rounded-2xl">
       <div class="flex justify-between items-center mb-1">
-        <span class="text-xs font-bold text-indigo-900 truncate" id="sideExamTitle">考試倒數</span>
-        <button onclick="editExamCountdown()" class="text-indigo-400 hover:text-indigo-600"><i data-lucide="settings" class="w-3.5 h-3.5"></i></button>
+        <span class="text-xs font-bold text-stone-800 truncate" id="sideExamTitle">考試倒數</span>
+        <button onclick="editExamCountdown()" class="text-stone-400 hover:text-stone-700"><i data-lucide="settings" class="w-3.5 h-3.5"></i></button>
       </div>
-      <div class="text-indigo-600 font-extrabold text-lg" id="sideCountdownDays">0 天</div>
+      <div class="text-stone-800 font-extrabold text-lg" id="sideCountdownDays">0 天</div>
     </div>
   </aside>
 
-  <!-- 主要內容顯示區域 -->
-  <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:p-8">
+  <!-- 主要內容區 -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-8">
     
-    <header class="flex justify-between items-center mb-8 pb-4 border-b border-slate-200">
+    <header class="flex justify-between items-center mb-8 pb-4 border-b border-stone-200">
       <div>
-        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider" id="headerCategory">STUDY PLANNER</span>
-        <h2 class="text-2xl font-bold text-slate-800 mt-0.5" id="headerTitle">總覽</h2>
+        <span class="text-xs font-semibold text-stone-400 uppercase tracking-wider" id="headerCategory">STUDY PLANNER</span>
+        <h2 class="text-2xl font-bold text-stone-800 mt-0.5" id="headerTitle">總覽與足跡</h2>
       </div>
-      <div class="text-sm font-medium text-slate-500 bg-white px-3.5 py-1.5 rounded-xl border border-slate-200 shadow-sm" id="currentDateDisplay"></div>
+      <div class="text-sm font-medium text-stone-600 bg-white px-3.5 py-1.5 rounded-xl border border-stone-200 shadow-sm" id="currentDateDisplay"></div>
     </header>
 
-    <!-- 1. 總覽頁面 -->
-    <section id="page-overview" class="space-y-6 tab-page">
+    <!-- 1. 總覽與足跡頁面 -->
+    <section id="page-overview" class="space-y-8 tab-page">
+      
+      <!-- 統計數據三大卡片 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
+          <div class="text-3xl font-bold text-stone-800 mb-1" id="statTotalHours">0.0</div>
+          <div class="text-xs text-stone-500">本年度累計時數（小時）</div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
+          <div class="text-3xl font-bold text-stone-800 mb-1" id="statStudyDays">0</div>
+          <div class="text-xs text-stone-500">讀書天數</div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
+          <div class="text-3xl font-bold text-stone-800 mb-1" id="statStreakDays">0</div>
+          <div class="text-xs text-stone-500">最長連續天數</div>
+        </div>
+      </div>
+
+      <!-- 年度讀書足跡 (GitHub 熱力圖風格) -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200 space-y-4">
+        <h3 class="text-base font-bold text-stone-800 flex items-center gap-2">
+          <i data-lucide="activity" class="w-5 h-5 text-stone-600"></i> 年度讀書足跡
+        </h3>
+        <div class="overflow-x-auto pb-2">
+          <div id="heatmapContainer" class="min-w-[700px]">
+            <!-- 動態渲染熱力圖 -->
+          </div>
+        </div>
+        <div class="flex items-center justify-end space-x-2 text-xs text-stone-400 pt-2 border-t border-stone-100">
+          <span>少</span>
+          <div class="w-3.5 h-3.5 rounded bg-stone-100"></div>
+          <div class="w-3.5 h-3.5 rounded bg-emerald-100"></div>
+          <div class="w-3.5 h-3.5 rounded bg-emerald-300"></div>
+          <div class="w-3.5 h-3.5 rounded bg-emerald-500"></div>
+          <div class="w-3.5 h-3.5 rounded bg-emerald-700"></div>
+          <span>多</span>
+        </div>
+      </div>
+
+      <!-- 今日目標與任務摘要 -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200 flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-center mb-2">
-              <h3 class="text-base font-semibold text-slate-700">今日讀書目標</h3>
-              <button onclick="editDailyGoal()" class="text-xs text-indigo-600 hover:underline">修改目標</button>
+              <h3 class="text-base font-semibold text-stone-700">今日讀書目標進度</h3>
+              <button onclick="editDailyGoal()" class="text-xs text-stone-600 hover:underline">修改目標</button>
             </div>
             <div class="mt-4 flex items-baseline space-x-2">
-              <span class="text-3xl font-extrabold text-slate-900" id="overviewStudyHours">0</span>
-              <span class="text-slate-500 text-sm">/ <span id="overviewGoalHours">4</span> 小時</span>
+              <span class="text-3xl font-extrabold text-stone-900" id="overviewStudyHours">0</span>
+              <span class="text-stone-500 text-sm">/ <span id="overviewGoalHours">4</span> 小時</span>
             </div>
           </div>
           <div class="mt-6">
-            <div class="flex justify-between text-xs font-medium text-slate-500 mb-1">
-              <span>今日達成率</span>
+            <div class="flex justify-between text-xs font-medium text-stone-500 mb-1">
+              <span>達成率</span>
               <span id="overviewPercent">0%</span>
             </div>
-            <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
-              <div id="overviewProgressBar" class="bg-indigo-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+            <div class="w-full bg-stone-100 rounded-full h-3 overflow-hidden">
+              <div id="overviewProgressBar" class="bg-emerald-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
             </div>
           </div>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <h3 class="text-base font-semibold text-slate-700" id="overviewExamTitleDisplay">重要考試 / 目標</h3>
-              <button onclick="editExamCountdown()" class="text-xs text-indigo-600 hover:underline">設定目標</button>
-            </div>
-            <div class="mt-4 flex items-baseline space-x-2">
-              <span class="text-4xl font-black text-indigo-600" id="overviewExamDays">0</span>
-              <span class="text-slate-500 font-medium">天剩餘</span>
-            </div>
-          </div>
-          <p class="text-xs text-slate-400 mt-4">目標日期：<span id="overviewExamDateStr">--</span></p>
-        </div>
-      </div>
-
-      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-base font-semibold text-slate-800">今日 To-do 快速清單</h3>
-          <button onclick="switchTab('subjects')" class="text-xs text-indigo-600 hover:underline">前往管理項目與待辦 &rarr;</button>
-        </div>
-        <ul id="overviewTodoList" class="space-y-2"></ul>
-      </div>
-    </section>
-
-    <!-- 2. 讀書項目與 To-do -->
-    <section id="page-subjects" class="space-y-6 tab-page hidden">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <h3 class="text-base font-semibold text-slate-800 mb-4 flex items-center gap-2">
-            <i data-lucide="check-square" class="w-5 h-5 text-indigo-500"></i> 今日 To-do 任務
-          </h3>
-          <form onsubmit="addTodo(event)" class="flex space-x-2 mb-4">
-            <input type="text" id="todoInput" placeholder="今天想完成什麼任務？" class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg text-sm transition">
-              <i data-lucide="plus" class="w-4 h-4"></i>
-            </button>
-          </form>
-          <ul id="todoList" class="space-y-2 max-h-[350px] overflow-y-auto pr-1"></ul>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-base font-semibold text-slate-800 flex items-center gap-2">
-              <i data-lucide="table-properties" class="w-5 h-5 text-indigo-500"></i> 讀書項目總表
-            </h3>
-            <button onclick="openSubjectModal()" class="text-sm bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-medium px-3.5 py-1.5 rounded-lg transition flex items-center gap-1">
-              <i data-lucide="plus" class="w-4 h-4"></i> 新增項目
-            </button>
+            <h3 class="text-base font-semibold text-stone-800">今日 To-do 任務</h3>
+            <button onclick="switchTab('subjects')" class="text-xs text-stone-600 hover:underline">完整管理 &rarr;</button>
           </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-slate-600">
-              <thead class="text-xs uppercase bg-slate-50 text-slate-400 border-b border-slate-200">
-                <tr>
-                  <th class="py-3 px-3">項目名稱</th>
-                  <th class="py-3 px-3">目標日期</th>
-                  <th class="py-3 px-3">已讀 / 目標時數</th>
-                  <th class="py-3 px-3">進度</th>
-                  <th class="py-3 px-3 text-right">操作</th>
-                </tr>
-              </thead>
-              <tbody id="subjectTableBody" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
+          <ul id="overviewTodoList" class="space-y-2"></ul>
         </div>
       </div>
+
     </section>
 
-    <!-- 3. 月計畫頁面 (支援點擊直接新增活動) -->
+    <!-- 2. 讀書項目與科目管理頁面 -->
+    <section id="page-subjects" class="space-y-8 tab-page hidden">
+      
+      <!-- 新增科目表單 (依照圖片設計) -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200 space-y-4">
+        <h3 class="text-base font-bold text-stone-800">新增讀書科目</h3>
+        <form onsubmit="saveSubject(event)" class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-medium text-stone-500 mb-1">科目名稱</label>
+              <input type="text" id="subjName" required placeholder="例如：財務會計" class="w-full border border-stone-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-stone-500 focus:outline-none bg-stone-50/50">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-stone-500 mb-1">目標時數（小時）</label>
+              <input type="number" id="subjTargetHours" min="1" required placeholder="例如：50" class="w-full border border-stone-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-stone-500 focus:outline-none bg-stone-50/50">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-stone-500 mb-1">考試日期（選填）</label>
+              <input type="date" id="subjTargetDate" class="w-full border border-stone-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-stone-500 focus:outline-none bg-stone-50/50">
+            </div>
+          </div>
+
+          <!-- 顏色選擇 -->
+          <div>
+            <label class="block text-xs font-medium text-stone-500 mb-2">標籤顏色</label>
+            <div class="flex items-center space-x-3" id="colorPickerContainer">
+              <button type="button" onclick="selectColor('#4a453f')" class="w-6 h-6 rounded-full bg-[#4a453f] ring-2 ring-offset-2 ring-stone-800 color-btn" data-color="#4a453f"></button>
+              <button type="button" onclick="selectColor('#b48b3e')" class="w-6 h-6 rounded-full bg-[#b48b3e] color-btn" data-color="#b48b3e"></button>
+              <button type="button" onclick="selectColor('#7c6f8c')" class="w-6 h-6 rounded-full bg-[#7c6f8c] color-btn" data-color="#7c6f8c"></button>
+              <button type="button" onclick="selectColor('#4f6f7b')" class="w-6 h-6 rounded-full bg-[#4f6f7b] color-btn" data-color="#4f6f7b"></button>
+              <button type="button" onclick="selectColor('#9c5f43')" class="w-6 h-6 rounded-full bg-[#9c5f43] color-btn" data-color="#9c5f43"></button>
+              <button type="button" onclick="selectColor('#657388')" class="w-6 h-6 rounded-full bg-[#657388] color-btn" data-color="#657388"></button>
+              <button type="button" onclick="selectColor('#627d56')" class="w-6 h-6 rounded-full bg-[#627d56] color-btn" data-color="#627d56"></button>
+              <button type="button" onclick="selectColor('#a66e63')" class="w-6 h-6 rounded-full bg-[#a66e63] color-btn" data-color="#a66e63"></button>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button type="submit" class="bg-stone-900 hover:bg-stone-800 text-white font-medium px-6 py-2.5 rounded-xl text-sm transition">新增科目</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- 我的科目列表 -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200 space-y-4">
+        <div>
+          <h3 class="text-base font-bold text-stone-800">我的科目</h3>
+          <p class="text-xs text-stone-400 mt-0.5">進度以「本年度」累計讀書時數計算</p>
+        </div>
+        <div id="subjectCardsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 動態載入科目卡片 -->
+        </div>
+      </div>
+
+      <!-- 今日 To-do 任務管理 -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
+        <h3 class="text-base font-bold text-stone-800 mb-4 flex items-center gap-2">
+          <i data-lucide="check-square" class="w-5 h-5 text-stone-600"></i> 今日 To-do 任務
+        </h3>
+        <form onsubmit="addTodo(event)" class="flex space-x-2 mb-4">
+          <input type="text" id="todoInput" placeholder="今天想完成什麼任務？" class="flex-1 border border-stone-200 rounded-xl px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-stone-500 bg-stone-50/50">
+          <button type="submit" class="bg-stone-900 hover:bg-stone-800 text-white px-4 py-2 rounded-xl text-sm transition">新增</button>
+        </form>
+        <ul id="todoList" class="space-y-2 max-h-[300px] overflow-y-auto pr-1"></ul>
+      </div>
+
+    </section>
+
+    <!-- 3. 月計畫頁面 -->
     <section id="page-calendar" class="space-y-6 tab-page hidden">
-      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
         <div class="flex flex-wrap justify-between items-center mb-4 gap-2">
           <div>
-            <h3 class="text-xl font-bold text-slate-800" id="calendarMonthTitle">2026 年 9 月</h3>
-            <p class="text-xs text-slate-400 mt-0.5">💡 提示：點擊任何日期格子即可「新增」或「管理」該日的讀書排程</p>
+            <h3 class="text-xl font-bold text-stone-800" id="calendarMonthTitle">2026 年 9 月</h3>
+            <p class="text-xs text-stone-400 mt-0.5">💡 提示：點擊任何日期格子即可新增或管理該日的排程</p>
           </div>
           <div class="flex space-x-2">
-            <button onclick="changeMonth(-1)" class="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-            <button onclick="goToCurrentMonth()" class="px-3 py-1.5 border border-slate-200 rounded-lg hover:bg-slate-50 text-xs font-medium text-slate-600 transition">今天</button>
-            <button onclick="changeMonth(1)" class="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+            <button onclick="changeMonth(-1)" class="p-2 border border-stone-200 rounded-lg hover:bg-stone-50 transition"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            <button onclick="goToCurrentMonth()" class="px-3 py-1.5 border border-stone-200 rounded-lg hover:bg-stone-50 text-xs font-medium text-stone-600 transition">今天</button>
+            <button onclick="changeMonth(1)" class="p-2 border border-stone-200 rounded-lg hover:bg-stone-50 transition"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
           </div>
         </div>
 
-        <div class="grid grid-cols-7 gap-2 text-center text-xs font-semibold text-slate-400 mb-2">
+        <div class="grid grid-cols-7 gap-2 text-center text-xs font-semibold text-stone-400 mb-2">
           <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
         </div>
         <div class="grid grid-cols-7 gap-2" id="calendarGrid"></div>
@@ -182,32 +233,32 @@
 
     <!-- 4. 專注計時頁面 -->
     <section id="page-timer" class="space-y-6 tab-page hidden">
-      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto flex flex-col items-center">
+      <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200 max-w-xl mx-auto flex flex-col items-center">
         <div class="w-full flex justify-between items-center mb-6">
-          <h3 class="text-base font-semibold text-slate-700 flex items-center gap-2">
-            <i data-lucide="timer" class="w-5 h-5 text-indigo-500"></i> 專注計時器
+          <h3 class="text-base font-semibold text-stone-700 flex items-center gap-2">
+            <i data-lucide="timer" class="w-5 h-5 text-stone-600"></i> 專注計時器
           </h3>
           <div class="flex items-center space-x-2">
-            <label class="text-xs text-slate-500">關聯科目：</label>
-            <select id="timerSubjectSelect" class="text-sm bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <label class="text-xs text-stone-500">關聯科目：</label>
+            <select id="timerSubjectSelect" class="text-sm bg-stone-50 border border-stone-200 rounded-xl px-3 py-1 text-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-500">
               <option value="">（不指定）</option>
             </select>
           </div>
         </div>
 
         <div class="text-center my-8">
-          <div class="text-6xl font-black text-slate-800 tracking-wider font-mono" id="timerDisplay">00:00:00</div>
+          <div class="text-6xl font-black text-stone-800 tracking-wider font-mono" id="timerDisplay">00:00:00</div>
         </div>
 
         <div class="flex justify-center items-center space-x-4 w-full">
-          <button id="startTimerBtn" onclick="toggleTimer()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition flex justify-center items-center gap-2 shadow-sm">
+          <button id="startTimerBtn" onclick="toggleTimer()" class="flex-1 bg-stone-900 hover:bg-stone-800 text-white font-medium py-3 rounded-xl transition flex justify-center items-center gap-2 shadow-sm">
             <i data-lucide="play" class="w-4 h-4"></i>
             <span id="startTimerText">開始專注</span>
           </button>
-          <button onclick="saveAndResetTimer()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-5 py-3 rounded-xl transition flex items-center gap-2 shadow-sm">
+          <button onclick="saveAndResetTimer()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-5 py-3 rounded-xl transition flex items-center gap-2 shadow-sm">
             <i data-lucide="check" class="w-4 h-4"></i> 完成記錄
           </button>
-          <button onclick="resetTimerOnly()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium px-4 py-3 rounded-xl transition">
+          <button onclick="resetTimerOnly()" class="bg-stone-100 hover:bg-stone-200 text-stone-600 font-medium px-4 py-3 rounded-xl transition">
             重設
           </button>
         </div>
@@ -216,63 +267,28 @@
 
   </main>
 
-  <!-- 日曆點擊新增/管理行程 Modal -->
-  <div id="datePlanModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+  <!-- 日曆點擊新增 Modal -->
+  <div id="datePlanModal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl space-y-4">
       <div class="flex justify-between items-center">
         <div>
-          <h3 class="text-base font-bold text-slate-800" id="modalPlanDateTitle">2026-09-16 的讀書排程</h3>
-          <span class="text-xs text-slate-400">安排當日讀書進度或重要提醒</span>
+          <h3 class="text-base font-bold text-stone-800" id="modalPlanDateTitle">日期排程</h3>
+          <span class="text-xs text-stone-400">安排當日讀書進度或重要提醒</span>
         </div>
-        <button onclick="closePlanModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="closePlanModal()" class="text-stone-400 hover:text-stone-600"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-
-      <!-- 當日已排行程清單 -->
       <div class="space-y-2">
-        <label class="block text-xs font-semibold text-slate-600 uppercase">當日行程</label>
         <ul id="datePlanList" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></ul>
       </div>
-
-      <!-- 新增當日行程表單 -->
-      <form onsubmit="saveDatePlan(event)" class="pt-2 border-t border-slate-100 flex gap-2">
-        <input type="text" id="newPlanInput" required placeholder="例如：寫考古題一回、背單字50個..." class="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1">
-          <i data-lucide="plus" class="w-4 h-4"></i> 新增
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- 新增科目 Modal -->
-  <div id="subjectModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-bold text-slate-800">新增讀書項目</h3>
-        <button onclick="closeSubjectModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-      <form onsubmit="saveSubject(event)" class="space-y-4">
-        <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">科目 / 項目名稱</label>
-          <input type="text" id="subjName" required placeholder="例：諮商心理學、法學緒論..." class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">目標完成日期</label>
-          <input type="date" id="subjTargetDate" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">預計目標總時數（小時）</label>
-          <input type="number" id="subjTargetHours" min="1" required placeholder="例：30" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-        </div>
-        <div class="flex justify-end space-x-2 pt-2">
-          <button type="button" onclick="closeSubjectModal()" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">取消</button>
-          <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg">儲存項目</button>
-        </div>
+      <form onsubmit="saveDatePlan(event)" class="pt-2 border-t border-stone-100 flex gap-2">
+        <input type="text" id="newPlanInput" required placeholder="例如：寫考古題一回..." class="flex-1 border border-stone-200 rounded-xl px-3.5 py-2 text-sm focus:ring-2 focus:ring-stone-500 focus:outline-none bg-stone-50/50">
+        <button type="submit" class="bg-stone-900 hover:bg-stone-800 text-white px-4 py-2 rounded-xl text-sm font-medium transition">新增</button>
       </form>
     </div>
   </div>
 
   <script>
-    const STORAGE_KEY = 'studyflow_app_data_v3';
+    const STORAGE_KEY = 'studyflow_app_data_v4';
     let appData = {
       exam: { title: '重要考試 / 檢定', date: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0] },
       dailyGoalHours: 4,
@@ -280,9 +296,11 @@
       todayStudySeconds: 0,
       todos: [],
       subjects: [],
-      plans: {} // 存放格式: { '2026-09-16': ['完成第3章筆記', '寫題庫'] }
+      plans: {},
+      dailyLogs: {} // 記錄每日秒數 { '2026-09-16': 7200 }
     };
 
+    let selectedColor = '#4a453f';
     let currentCalendarDate = new Date();
     let selectedDateForModal = null;
 
@@ -291,6 +309,7 @@
       if (saved) {
         try {
           appData = { ...appData, ...JSON.parse(saved) };
+          if (!appData.dailyLogs) appData.dailyLogs = {};
           if (!appData.plans) appData.plans = {};
           const today = new Date().toISOString().split('T')[0];
           if (appData.todayDate !== today) {
@@ -309,46 +328,224 @@
     function switchTab(tabId) {
       document.querySelectorAll('.tab-page').forEach(p => p.classList.add('hidden'));
       document.querySelectorAll('aside nav button').forEach(b => {
-        b.classList.remove('bg-indigo-50', 'text-indigo-600', 'font-semibold');
-        b.classList.add('text-slate-600', 'hover:bg-slate-50');
+        b.classList.remove('bg-stone-200/60', 'text-stone-900', 'font-semibold');
+        b.classList.add('text-stone-600', 'hover:bg-stone-50');
       });
 
       document.getElementById(`page-${tabId}`).classList.remove('hidden');
       const activeBtn = document.getElementById(`tab-${tabId}`);
       if (activeBtn) {
-        activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-50');
-        activeBtn.classList.add('bg-indigo-50', 'text-indigo-600', 'font-semibold');
+        activeBtn.classList.remove('text-stone-600', 'hover:bg-stone-50');
+        activeBtn.classList.add('bg-stone-200/60', 'text-stone-900', 'font-semibold');
       }
 
       const titles = {
-        overview: ['總覽', 'STUDY PLANNER'],
-        subjects: ['讀書項目與任務', 'TASKS & SUBJECTS'],
+        overview: ['總覽與足跡', 'OVERVIEW & HEATMAP'],
+        subjects: ['讀書項目與任務', 'SUBJECTS & TASKS'],
         calendar: ['月計畫', 'MONTHLY CALENDAR'],
         timer: ['專注計時', 'FOCUS TIMER']
       };
       document.getElementById('headerTitle').textContent = titles[tabId][0];
       document.getElementById('headerCategory').textContent = titles[tabId][1];
 
+      if (tabId === 'overview') {
+        renderHeatmap();
+        renderStats();
+      }
       if (tabId === 'calendar') renderCalendar();
+      if (tabId === 'subjects') renderSubjectCards();
     }
 
+    // --- 統計與熱力圖計算 ---
+    function renderStats() {
+      let totalSecs = 0;
+      let studyDaysCount = 0;
+      const logs = appData.dailyLogs || {};
+      
+      Object.values(logs).forEach(sec => {
+        if (sec > 0) {
+          totalSecs += sec;
+          studyDaysCount++;
+        }
+      });
+
+      // 計算連續天數
+      let streak = 0;
+      let d = new Date();
+      while (true) {
+        const dateStr = d.toISOString().split('T')[0];
+        if (logs[dateStr] && logs[dateStr] > 0) {
+          streak++;
+          d.setDate(d.getDate() - 1);
+        } else {
+          // 如果今天還沒讀，檢查昨天
+          if (streak === 0 && dateStr === new Date().toISOString().split('T')[0]) {
+            d.setDate(d.getDate() - 1);
+            const yestStr = d.toISOString().split('T')[0];
+            if (logs[yestStr] && logs[yestStr] > 0) {
+              streak++;
+              d.setDate(d.getDate() - 1);
+              continue;
+            }
+          }
+          break;
+        }
+      }
+
+      document.getElementById('statTotalHours').textContent = (totalSecs / 3600).toFixed(1);
+      document.getElementById('statStudyDays').textContent = studyDaysCount;
+      document.getElementById('statStreakDays').textContent = streak;
+    }
+
+    function renderHeatmap() {
+      const container = document.getElementById('heatmapContainer');
+      container.innerHTML = '';
+
+      const year = new Date().getFullYear();
+      const startDate = new Date(year, 0, 1);
+      const endDate = new Date(year, 11, 31);
+      
+      const gridDiv = document.createElement('div');
+      gridDiv.className = "grid grid-flow-col grid-rows-7 gap-1.5";
+
+      let curr = new Date(startDate);
+      // 補齊第一週前面的空白
+      for (let i = 0; i < curr.getDay(); i++) {
+        const emptyBox = document.createElement('div');
+        emptyBox.className = "w-3.5 h-3.5 rounded-sm opacity-0";
+        gridDiv.appendChild(emptyBox);
+      }
+
+      while (curr <= endDate) {
+        const dateStr = curr.toISOString().split('T')[0];
+        const secs = (appData.dailyLogs && appData.dailyLogs[dateStr]) || 0;
+        
+        let colorClass = "bg-stone-100";
+        if (secs > 0 && secs < 3600) colorClass = "bg-emerald-100";
+        else if (secs >= 3600 && secs < 7200) colorClass = "bg-emerald-300";
+        else if (secs >= 7200 && secs < 14400) colorClass = "bg-emerald-500";
+        else if (secs >= 14400) colorClass = "bg-emerald-700";
+
+        const box = document.createElement('div');
+        box.className = `w-3.5 h-3.5 rounded-sm ${colorClass} transition hover:ring-2 hover:ring-stone-400 cursor-pointer`;
+        box.title = `${dateStr}: ${(secs / 3600).toFixed(1)} 小時`;
+        gridDiv.appendChild(box);
+
+        curr.setDate(curr.getDate() + 1);
+      }
+      container.appendChild(gridDiv);
+    }
+
+    // --- 科目與顏色選擇 ---
+    function selectColor(hex) {
+      selectedColor = hex;
+      document.querySelectorAll('.color-btn').forEach(btn => {
+        btn.classList.remove('ring-2', 'ring-offset-2', 'ring-stone-800');
+        if (btn.dataset.color === hex) {
+          btn.classList.add('ring-2', 'ring-offset-2', 'ring-stone-800');
+        }
+      });
+    }
+
+    function saveSubject(e) {
+      e.preventDefault();
+      const name = document.getElementById('subjName').value.trim();
+      const targetHours = Number(document.getElementById('subjTargetHours').value);
+      const targetDate = document.getElementById('subjTargetDate').value;
+      if (!name || !targetHours) return;
+
+      appData.subjects.push({
+        id: Date.now().toString(),
+        name,
+        targetHours,
+        targetDate,
+        color: selectedColor,
+        spentSeconds: 0
+      });
+
+      saveData();
+      renderSubjectCards();
+      renderSubjectsDropdown();
+      e.target.reset();
+      selectColor('#4a453f');
+      alert('科目新增成功！');
+    }
+
+    function renderSubjectCards() {
+      const listContainer = document.getElementById('subjectCardsList');
+      listContainer.innerHTML = '';
+
+      if (appData.subjects.length === 0) {
+        listContainer.innerHTML = '<p class="text-xs text-stone-400 col-span-2 py-4 text-center">尚未新增科目，請於上方建立您的第一個科目。</p>';
+        return;
+      }
+
+      appData.subjects.forEach(subj => {
+        const spentH = ((subj.spentSeconds || 0) / 3600).toFixed(1);
+        const percent = Math.min(100, Math.round((spentH / subj.targetHours) * 100)) || 0;
+
+        let dateStrHtml = subj.targetDate ? `考試日期：${subj.targetDate}` : '無設定考試日';
+
+        const card = document.createElement('div');
+        card.className = "p-4 rounded-2xl border border-stone-200 bg-white flex flex-col justify-between space-y-3 shadow-sm";
+        card.innerHTML = `
+          <div class="flex justify-between items-start">
+            <div class="flex items-center space-x-2">
+              <span class="w-3.5 h-3.5 rounded-full inline-block" style="background-color: ${subj.color || '#4a453f'}"></span>
+              <h4 class="font-bold text-stone-800 text-base">${subj.name}</h4>
+            </div>
+            <button onclick="deleteSubject('${subj.id}')" class="text-stone-300 hover:text-rose-600 transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+          </div>
+          <div class="flex justify-between text-xs text-stone-500">
+            <span>${dateStrHtml}</span>
+            <span class="font-mono font-semibold text-stone-700">${spentH} / ${subj.targetHours} 小時</span>
+          </div>
+          <div>
+            <div class="w-full bg-stone-100 rounded-full h-2 overflow-hidden mb-1">
+              <div class="h-2 rounded-full transition-all" style="width: ${percent}%; background-color: ${subj.color || '#4a453f'}"></div>
+            </div>
+            <div class="flex justify-end text-[10px] text-stone-400 font-medium">${percent}%</div>
+          </div>
+        `;
+        listContainer.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    function deleteSubject(id) {
+      if (confirm('確定要刪除這個科目嗎？')) {
+        appData.subjects = appData.subjects.filter(s => s.id !== id);
+        saveData();
+        renderSubjectCards();
+        renderSubjectsDropdown();
+      }
+    }
+
+    function renderSubjectsDropdown() {
+      const select = document.getElementById('timerSubjectSelect');
+      const current = select.value;
+      select.innerHTML = '<option value="">（不指定）</option>';
+      appData.subjects.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = s.name;
+        if (s.id === current) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+
+    // --- 倒數與目標設定 ---
     function renderOverviewAndCountdown() {
       const now = new Date();
       const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
       document.getElementById('currentDateDisplay').textContent = now.toLocaleDateString('zh-TW', options);
 
       document.getElementById('sideExamTitle').textContent = appData.exam.title;
-      document.getElementById('overviewExamTitleDisplay').textContent = appData.exam.title;
-      document.getElementById('overviewExamDateStr').textContent = appData.exam.date;
-
       const target = new Date(appData.exam.date);
       const today = new Date();
       today.setHours(0,0,0,0); target.setHours(0,0,0,0);
       const diffDays = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
-      
-      const dayText = diffDays >= 0 ? `${diffDays}` : `已過 ${Math.abs(diffDays)}`;
       document.getElementById('sideCountdownDays').textContent = `${diffDays} 天`;
-      document.getElementById('overviewExamDays').textContent = dayText;
 
       const goalSec = appData.dailyGoalHours * 3600;
       const currentSec = appData.todayStudySeconds;
@@ -368,7 +565,6 @@
         appData.exam.date = newDate;
         saveData();
         renderOverviewAndCountdown();
-        if (!document.getElementById('page-calendar').classList.contains('hidden')) renderCalendar();
       }
     }
 
@@ -381,7 +577,7 @@
       }
     }
 
-    // --- 月計畫日曆邏輯 ---
+    // --- 月計畫日曆 ---
     function renderCalendar() {
       const year = currentCalendarDate.getFullYear();
       const month = currentCalendarDate.getMonth();
@@ -396,7 +592,7 @@
 
       for (let i = 0; i < firstDayIndex; i++) {
         const emptyDiv = document.createElement('div');
-        emptyDiv.className = "min-h-[100px] bg-slate-50/50 rounded-xl border border-slate-100";
+        emptyDiv.className = "min-h-[100px] bg-stone-50/50 rounded-xl border border-stone-100";
         grid.appendChild(emptyDiv);
       }
 
@@ -410,7 +606,7 @@
         }
         appData.subjects.forEach(s => {
           if (s.targetDate === dateStr) {
-            badgeHtml += `<span class="block bg-indigo-50 border border-indigo-100 text-indigo-600 text-[10px] px-1.5 py-0.5 rounded font-medium truncate">📖 ${s.name}</span>`;
+            badgeHtml += `<span class="block bg-stone-100 border border-stone-200 text-stone-700 text-[10px] px-1.5 py-0.5 rounded font-medium truncate">📖 ${s.name}</span>`;
           }
         });
         if (appData.plans && appData.plans[dateStr]) {
@@ -420,12 +616,12 @@
         }
 
         const dayDiv = document.createElement('div');
-        dayDiv.className = `min-h-[100px] p-2 rounded-xl border flex flex-col justify-between overflow-hidden cursor-pointer transition ${isToday ? 'border-indigo-500 bg-indigo-50/20 ring-2 ring-indigo-500/20' : 'border-slate-200 bg-white hover:border-indigo-300 hover:shadow-sm'}`;
+        dayDiv.className = `min-h-[100px] p-2 rounded-xl border flex flex-col justify-between overflow-hidden cursor-pointer transition ${isToday ? 'border-stone-800 bg-stone-100/50 ring-2 ring-stone-800/20' : 'border-stone-200 bg-white hover:border-stone-400'}`;
         dayDiv.onclick = () => openPlanModal(dateStr);
         dayDiv.innerHTML = `
           <div class="flex justify-between items-center mb-1">
-            <span class="text-xs font-bold ${isToday ? 'bg-indigo-600 text-white w-5 h-5 rounded-full flex items-center justify-center' : 'text-slate-700'}">${d}</span>
-            <i data-lucide="plus" class="w-3.5 h-3.5 text-slate-300 hover:text-indigo-600"></i>
+            <span class="text-xs font-bold ${isToday ? 'bg-stone-900 text-white w-5 h-5 rounded-full flex items-center justify-center' : 'text-stone-700'}">${d}</span>
+            <i data-lucide="plus" class="w-3.5 h-3.5 text-stone-300 hover:text-stone-700"></i>
           </div>
           <div class="overflow-y-auto flex-1 space-y-1">${badgeHtml}</div>
         `;
@@ -438,70 +634,54 @@
       currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
       renderCalendar();
     }
-
     function goToCurrentMonth() {
       currentCalendarDate = new Date();
       renderCalendar();
     }
 
-    // --- 點擊日曆彈出自訂行程 Modal ---
     function openPlanModal(dateStr) {
       selectedDateForModal = dateStr;
-      document.getElementById('modalPlanDateTitle').textContent = `${dateStr} 的排程與提醒`;
+      document.getElementById('modalPlanDateTitle').textContent = `${dateStr} 的排程`;
       renderDatePlanList();
       document.getElementById('datePlanModal').classList.remove('hidden');
       document.getElementById('datePlanModal').classList.add('flex');
     }
-
     function closePlanModal() {
       document.getElementById('datePlanModal').classList.add('hidden');
       document.getElementById('datePlanModal').classList.remove('flex');
-      selectedDateForModal = null;
     }
-
     function renderDatePlanList() {
       const listEl = document.getElementById('datePlanList');
       listEl.innerHTML = '';
       const items = (appData.plans && appData.plans[selectedDateForModal]) || [];
       if (items.length === 0) {
-        listEl.innerHTML = '<li class="text-xs text-slate-400 py-2">目前沒有自訂行程，可於下方新增！</li>';
+        listEl.innerHTML = '<li class="text-xs text-stone-400 py-2">尚無行程，可於下方新增！</li>';
         return;
       }
-
       items.forEach((item, index) => {
         const li = document.createElement('li');
-        li.className = "flex items-center justify-between text-xs p-2 bg-slate-50 border border-slate-100 rounded-lg text-slate-700";
-        li.innerHTML = `
-          <span>📌 ${item}</span>
-          <button onclick="deleteDatePlan(${index})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
-        `;
+        li.className = "flex items-center justify-between text-xs p-2 bg-stone-50 border border-stone-100 rounded-xl text-stone-700";
+        li.innerHTML = `<span>📌 ${item}</span><button onclick="deleteDatePlan(${index})" class="text-stone-300 hover:text-rose-600"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>`;
         listEl.appendChild(li);
       });
       lucide.createIcons();
     }
-
     function saveDatePlan(e) {
       e.preventDefault();
       const input = document.getElementById('newPlanInput');
       const text = input.value.trim();
       if (!text || !selectedDateForModal) return;
-
-      if (!appData.plans) appData.plans = {};
       if (!appData.plans[selectedDateForModal]) appData.plans[selectedDateForModal] = [];
       appData.plans[selectedDateForModal].push(text);
-
       saveData();
       input.value = '';
       renderDatePlanList();
       renderCalendar();
     }
-
     function deleteDatePlan(index) {
-      if (selectedDateForModal && appData.plans && appData.plans[selectedDateForModal]) {
+      if (appData.plans[selectedDateForModal]) {
         appData.plans[selectedDateForModal].splice(index, 1);
-        if (appData.plans[selectedDateForModal].length === 0) {
-          delete appData.plans[selectedDateForModal];
-        }
+        if (appData.plans[selectedDateForModal].length === 0) delete appData.plans[selectedDateForModal];
         saveData();
         renderDatePlanList();
         renderCalendar();
@@ -515,7 +695,7 @@
       listEl.innerHTML = ''; overviewList.innerHTML = '';
 
       if (appData.todos.length === 0) {
-        const emptyMsg = '<li class="text-sm text-slate-400 py-3 text-center">今天還沒有新增任務！</li>';
+        const emptyMsg = '<li class="text-sm text-stone-400 py-3 text-center">今天還沒有新增任務！</li>';
         listEl.innerHTML = emptyMsg; overviewList.innerHTML = emptyMsg;
         return;
       }
@@ -523,27 +703,25 @@
       appData.todos.forEach((todo, idx) => {
         const itemHtml = `
           <label class="flex items-center space-x-2.5 cursor-pointer flex-1">
-            <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleTodo('${todo.id}')" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4">
-            <span class="${todo.completed ? 'line-through text-slate-400' : 'text-slate-700'} text-sm">${todo.text}</span>
+            <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleTodo('${todo.id}')" class="rounded text-stone-800 focus:ring-stone-500 w-4 h-4">
+            <span class="${todo.completed ? 'line-through text-stone-400' : 'text-stone-700'} text-sm">${todo.text}</span>
           </label>
-          <button onclick="deleteTodo('${todo.id}')" class="text-slate-300 hover:text-rose-500 ml-2"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+          <button onclick="deleteTodo('${todo.id}')" class="text-stone-300 hover:text-rose-600 ml-2"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
         `;
-
         const li1 = document.createElement('li');
-        li1.className = "flex items-center justify-between p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 transition";
+        li1.className = "flex items-center justify-between p-2.5 rounded-xl border border-stone-100 hover:bg-stone-50 transition";
         li1.innerHTML = itemHtml;
         listEl.appendChild(li1);
 
         if (idx < 3) {
           const li2 = document.createElement('li');
-          li2.className = "flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-100 text-sm";
+          li2.className = "flex items-center justify-between p-2 rounded-xl bg-stone-50 border border-stone-100 text-sm";
           li2.innerHTML = itemHtml;
           overviewList.appendChild(li2);
         }
       });
       lucide.createIcons();
     }
-
     function addTodo(e) {
       e.preventDefault();
       const input = document.getElementById('todoInput');
@@ -554,86 +732,14 @@
       saveData();
       renderTodos();
     }
-
     function toggleTodo(id) {
       const item = appData.todos.find(t => t.id === id);
       if (item) { item.completed = !item.completed; saveData(); renderTodos(); }
     }
-
     function deleteTodo(id) {
       appData.todos = appData.todos.filter(t => t.id !== id);
       saveData();
       renderTodos();
-    }
-
-    // --- 讀書項目與總表 ---
-    function renderSubjects() {
-      const tbody = document.getElementById('subjectTableBody');
-      const select = document.getElementById('timerSubjectSelect');
-      const currentSelected = select.value;
-
-      tbody.innerHTML = '';
-      select.innerHTML = '<option value="">（不指定）</option>';
-
-      if (appData.subjects.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400 text-sm">尚未建立讀書項目！</td></tr>`;
-        return;
-      }
-
-      appData.subjects.forEach(subj => {
-        const opt = document.createElement('option');
-        opt.value = subj.id; opt.textContent = subj.name;
-        if (subj.id === currentSelected) opt.selected = true;
-        select.appendChild(opt);
-
-        const spentHours = ((subj.spentSeconds || 0) / 3600).toFixed(1);
-        const percent = Math.min(100, Math.round((spentHours / subj.targetHours) * 100)) || 0;
-
-        const targetD = new Date(subj.targetDate);
-        const now = new Date(); now.setHours(0,0,0,0); targetD.setHours(0,0,0,0);
-        const daysLeft = Math.ceil((targetD - now) / (1000 * 60 * 60 * 24));
-        const daysBadge = daysLeft >= 0 ? `<span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full ml-1">剩 ${daysLeft} 天</span>` : `<span class="text-xs bg-rose-50 text-rose-500 px-2 py-0.5 rounded-full ml-1">已過期</span>`;
-
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50/50 transition";
-        tr.innerHTML = `
-          <td class="py-3 px-3 font-medium text-slate-800">${subj.name}</td>
-          <td class="py-3 px-3 text-xs text-slate-500">${subj.targetDate} ${daysBadge}</td>
-          <td class="py-3 px-3 font-mono text-xs"><span class="text-indigo-600 font-semibold">${spentHours}h</span> / ${subj.targetHours}h</td>
-          <td class="py-3 px-3">
-            <div class="w-24 bg-slate-100 rounded-full h-2 overflow-hidden mb-1"><div class="bg-indigo-600 h-2 rounded-full" style="width: ${percent}%"></div></div>
-            <span class="text-[10px] text-slate-400 font-medium">${percent}%</span>
-          </td>
-          <td class="py-3 px-3 text-right">
-            <button onclick="deleteSubject('${subj.id}')" class="text-slate-300 hover:text-rose-500 transition p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-      lucide.createIcons();
-    }
-
-    function openSubjectModal() { document.getElementById('subjectModal').classList.remove('hidden'); document.getElementById('subjectModal').classList.add('flex'); }
-    function closeSubjectModal() { document.getElementById('subjectModal').classList.add('hidden'); document.getElementById('subjectModal').classList.remove('flex'); }
-
-    function saveSubject(e) {
-      e.preventDefault();
-      const name = document.getElementById('subjName').value.trim();
-      const targetDate = document.getElementById('subjTargetDate').value;
-      const targetHours = Number(document.getElementById('subjTargetHours').value);
-      if (!name || !targetDate || !targetHours) return;
-
-      appData.subjects.push({ id: Date.now().toString(), name, targetDate, targetHours, spentSeconds: 0 });
-      saveData(); renderSubjects(); closeSubjectModal(); e.target.reset();
-      if (!document.getElementById('page-calendar').classList.contains('hidden')) renderCalendar();
-    }
-
-    function deleteSubject(id) {
-      if (confirm('確定要刪除這個項目嗎？')) {
-        appData.subjects = appData.subjects.filter(s => s.id !== id);
-        saveData(); renderSubjects();
-        if (!document.getElementById('page-calendar').classList.contains('hidden')) renderCalendar();
-      }
     }
 
     // --- 計時器邏輯 ---
@@ -644,7 +750,6 @@
       const s = String(totalSec % 60).padStart(2, '0');
       return `${h}:${m}:${s}`;
     }
-
     function updateTimerUI() { document.getElementById('timerDisplay').textContent = formatTime(timerSeconds); }
 
     function toggleTimer() {
@@ -663,16 +768,25 @@
       if (isRunning) toggleTimer();
       appData.todayStudySeconds += timerSeconds;
 
+      // 累積到當日足跡 logs
+      const todayStr = new Date().toISOString().split('T')[0];
+      if (!appData.dailyLogs) appData.dailyLogs = {};
+      appData.dailyLogs[todayStr] = (appData.dailyLogs[todayStr] || 0) + timerSeconds;
+
+      // 累積到科目時數
       const subjectId = document.getElementById('timerSubjectSelect').value;
       if (subjectId) {
         const subj = appData.subjects.find(s => s.id === subjectId);
         if (subj) subj.spentSeconds = (subj.spentSeconds || 0) + timerSeconds;
       }
 
-      saveData(); renderOverviewAndCountdown(); renderSubjects();
+      saveData();
+      renderOverviewAndCountdown();
+      renderSubjectCards();
+      
       timerSeconds = 0; updateTimerUI();
       document.getElementById('startTimerText').textContent = '開始專注';
-      alert('已成功記錄本次專注時間！');
+      alert('已成功記錄本次專注時間與足跡！');
     }
 
     function resetTimerOnly() {
@@ -682,12 +796,13 @@
       }
     }
 
-    // --- 啟動初始化 ---
+    // --- 初始化 ---
     window.addEventListener('DOMContentLoaded', () => {
       loadData();
       renderOverviewAndCountdown();
       renderTodos();
-      renderSubjects();
+      renderSubjectCards();
+      renderSubjectsDropdown();
       updateTimerUI();
       switchTab('overview');
       lucide.createIcons();
