@@ -13,10 +13,9 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col md:flex-row">
 
-  <!-- 側邊導覽列 (Desktop) / 底部導覽 (Mobile) -->
+  <!-- 側邊導覽列 -->
   <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between shrink-0 sticky top-0 z-30">
     <div class="p-6">
-      <!-- Logo 區域 -->
       <div class="flex items-center space-x-2.5 mb-8">
         <div class="bg-indigo-600 text-white p-2 rounded-xl">
           <i data-lucide="book-open-check" class="w-5 h-5"></i>
@@ -27,7 +26,6 @@
         </div>
       </div>
 
-      <!-- 分頁導覽按鈕 -->
       <nav class="space-y-1.5 flex md:block overflow-x-auto pb-2 md:pb-0 gap-1 md:gap-0">
         <button onclick="switchTab('overview')" id="tab-overview" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap text-slate-600 hover:bg-slate-50">
           <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
@@ -48,7 +46,6 @@
       </nav>
     </div>
 
-    <!-- 底部考試倒數快捷提示 -->
     <div class="hidden md:block p-4 m-4 bg-indigo-50/60 border border-indigo-100 rounded-2xl">
       <div class="flex justify-between items-center mb-1">
         <span class="text-xs font-bold text-indigo-900 truncate" id="sideExamTitle">考試倒數</span>
@@ -61,21 +58,17 @@
   <!-- 主要內容顯示區域 -->
   <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:p-8">
     
-    <!-- 頂部標題列 (顯示當前日期與分頁標題) -->
     <header class="flex justify-between items-center mb-8 pb-4 border-b border-slate-200">
       <div>
         <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider" id="headerCategory">STUDY PLANNER</span>
         <h2 class="text-2xl font-bold text-slate-800 mt-0.5" id="headerTitle">總覽</h2>
       </div>
-      <div class="text-sm font-medium text-slate-500 bg-white px-3.5 py-1.5 rounded-xl border border-slate-200 shadow-sm" id="currentDateDisplay">
-        <!-- 動態日期 -->
-      </div>
+      <div class="text-sm font-medium text-slate-500 bg-white px-3.5 py-1.5 rounded-xl border border-slate-200 shadow-sm" id="currentDateDisplay"></div>
     </header>
 
-    <!-- ================= 1. 總覽頁面 (Overview) ================= -->
+    <!-- 1. 總覽頁面 -->
     <section id="page-overview" class="space-y-6 tab-page">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- 今日進度 -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-center mb-2">
@@ -98,7 +91,6 @@
           </div>
         </div>
 
-        <!-- 考試倒數捷徑 -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-center mb-2">
@@ -114,26 +106,21 @@
         </div>
       </div>
 
-      <!-- 今日待辦快速預覽 -->
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-base font-semibold text-slate-800">今日 To-do 快速清單</h3>
           <button onclick="switchTab('subjects')" class="text-xs text-indigo-600 hover:underline">前往管理項目與待辦 &rarr;</button>
         </div>
-        <ul id="overviewTodoList" class="space-y-2">
-          <!-- 動態渲染 -->
-        </ul>
+        <ul id="overviewTodoList" class="space-y-2"></ul>
       </div>
     </section>
 
-    <!-- ================= 2. 讀書項目與 To-do 頁面 (Subjects) ================= -->
+    <!-- 2. 讀書項目與 To-do -->
     <section id="page-subjects" class="space-y-6 tab-page hidden">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- 今日 To-do -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <h3 class="text-base font-semibold text-slate-800 mb-4 flex items-center gap-2">
-            <i data-lucide="check-square" class="w-5 h-5 text-indigo-500"></i>
-            今日 To-do 任務
+            <i data-lucide="check-square" class="w-5 h-5 text-indigo-500"></i> 今日 To-do 任務
           </h3>
           <form onsubmit="addTodo(event)" class="flex space-x-2 mb-4">
             <input type="text" id="todoInput" placeholder="今天想完成什麼任務？" class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -144,12 +131,10 @@
           <ul id="todoList" class="space-y-2 max-h-[350px] overflow-y-auto pr-1"></ul>
         </div>
 
-        <!-- 讀書項目總表 -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-base font-semibold text-slate-800 flex items-center gap-2">
-              <i data-lucide="table-properties" class="w-5 h-5 text-indigo-500"></i>
-              讀書項目總表
+              <i data-lucide="table-properties" class="w-5 h-5 text-indigo-500"></i> 讀書項目總表
             </h3>
             <button onclick="openSubjectModal()" class="text-sm bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-medium px-3.5 py-1.5 rounded-lg transition flex items-center gap-1">
               <i data-lucide="plus" class="w-4 h-4"></i> 新增項目
@@ -173,29 +158,29 @@
       </div>
     </section>
 
-    <!-- ================= 3. 月計畫頁面 (Calendar) ================= -->
+    <!-- 3. 月計畫頁面 (支援點擊直接新增活動) -->
     <section id="page-calendar" class="space-y-6 tab-page hidden">
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-        <!-- 月份切換標題 -->
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-xl font-bold text-slate-800" id="calendarMonthTitle">2026 年 9 月</h3>
+        <div class="flex flex-wrap justify-between items-center mb-4 gap-2">
+          <div>
+            <h3 class="text-xl font-bold text-slate-800" id="calendarMonthTitle">2026 年 9 月</h3>
+            <p class="text-xs text-slate-400 mt-0.5">💡 提示：點擊任何日期格子即可「新增」或「管理」該日的讀書排程</p>
+          </div>
           <div class="flex space-x-2">
             <button onclick="changeMonth(-1)" class="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            <button onclick="goToCurrentMonth()" class="px-3 py-1.5 border border-slate-200 rounded-lg hover:bg-slate-50 text-xs font-medium text-slate-600 transition">今天</button>
             <button onclick="changeMonth(1)" class="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
           </div>
         </div>
 
-        <!-- 日曆格線 -->
         <div class="grid grid-cols-7 gap-2 text-center text-xs font-semibold text-slate-400 mb-2">
           <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
         </div>
-        <div class="grid grid-cols-7 gap-2" id="calendarGrid">
-          <!-- 動態產生月曆格子 -->
-        </div>
+        <div class="grid grid-cols-7 gap-2" id="calendarGrid"></div>
       </div>
     </section>
 
-    <!-- ================= 4. 專注計時頁面 (Timer) ================= -->
+    <!-- 4. 專注計時頁面 -->
     <section id="page-timer" class="space-y-6 tab-page hidden">
       <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto flex flex-col items-center">
         <div class="w-full flex justify-between items-center mb-6">
@@ -210,12 +195,10 @@
           </div>
         </div>
 
-        <!-- 碼表數字 -->
         <div class="text-center my-8">
           <div class="text-6xl font-black text-slate-800 tracking-wider font-mono" id="timerDisplay">00:00:00</div>
         </div>
 
-        <!-- 控制按鈕 -->
         <div class="flex justify-center items-center space-x-4 w-full">
           <button id="startTimerBtn" onclick="toggleTimer()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition flex justify-center items-center gap-2 shadow-sm">
             <i data-lucide="play" class="w-4 h-4"></i>
@@ -233,7 +216,34 @@
 
   </main>
 
-  <!-- 新增項目 Modal -->
+  <!-- 日曆點擊新增/管理行程 Modal -->
+  <div id="datePlanModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl space-y-4">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="text-base font-bold text-slate-800" id="modalPlanDateTitle">2026-09-16 的讀書排程</h3>
+          <span class="text-xs text-slate-400">安排當日讀書進度或重要提醒</span>
+        </div>
+        <button onclick="closePlanModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <!-- 當日已排行程清單 -->
+      <div class="space-y-2">
+        <label class="block text-xs font-semibold text-slate-600 uppercase">當日行程</label>
+        <ul id="datePlanList" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></ul>
+      </div>
+
+      <!-- 新增當日行程表單 -->
+      <form onsubmit="saveDatePlan(event)" class="pt-2 border-t border-slate-100 flex gap-2">
+        <input type="text" id="newPlanInput" required placeholder="例如：寫考古題一回、背單字50個..." class="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1">
+          <i data-lucide="plus" class="w-4 h-4"></i> 新增
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 新增科目 Modal -->
   <div id="subjectModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
       <div class="flex justify-between items-center mb-4">
@@ -243,7 +253,7 @@
       <form onsubmit="saveSubject(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-medium text-slate-600 mb-1">科目 / 項目名稱</label>
-          <input type="text" id="subjName" required placeholder="例：諮商心理學、民法總則..." class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+          <input type="text" id="subjName" required placeholder="例：諮商心理學、法學緒論..." class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
         </div>
         <div>
           <label class="block text-xs font-medium text-slate-600 mb-1">目標完成日期</label>
@@ -262,23 +272,26 @@
   </div>
 
   <script>
-    const STORAGE_KEY = 'studyflow_app_data_v2';
+    const STORAGE_KEY = 'studyflow_app_data_v3';
     let appData = {
       exam: { title: '重要考試 / 檢定', date: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0] },
       dailyGoalHours: 4,
       todayDate: new Date().toISOString().split('T')[0],
       todayStudySeconds: 0,
       todos: [],
-      subjects: []
+      subjects: [],
+      plans: {} // 存放格式: { '2026-09-16': ['完成第3章筆記', '寫題庫'] }
     };
 
     let currentCalendarDate = new Date();
+    let selectedDateForModal = null;
 
     function loadData() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         try {
           appData = { ...appData, ...JSON.parse(saved) };
+          if (!appData.plans) appData.plans = {};
           const today = new Date().toISOString().split('T')[0];
           if (appData.todayDate !== today) {
             appData.todayDate = today;
@@ -293,7 +306,6 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
     }
 
-    // --- 分頁切換邏輯 ---
     function switchTab(tabId) {
       document.querySelectorAll('.tab-page').forEach(p => p.classList.add('hidden'));
       document.querySelectorAll('aside nav button').forEach(b => {
@@ -308,21 +320,23 @@
         activeBtn.classList.add('bg-indigo-50', 'text-indigo-600', 'font-semibold');
       }
 
-      const titles = { overview: ['總覽', 'STUDY PLANNER'], subjects: ['讀書項目與任務', 'TASKS & SUBJECTS'], calendar: ['月計畫', 'MONTHLY CALENDAR'], timer: ['專注計時', 'FOCUS TIMER'] };
+      const titles = {
+        overview: ['總覽', 'STUDY PLANNER'],
+        subjects: ['讀書項目與任務', 'TASKS & SUBJECTS'],
+        calendar: ['月計畫', 'MONTHLY CALENDAR'],
+        timer: ['專注計時', 'FOCUS TIMER']
+      };
       document.getElementById('headerTitle').textContent = titles[tabId][0];
       document.getElementById('headerCategory').textContent = titles[tabId][1];
 
       if (tabId === 'calendar') renderCalendar();
     }
 
-    // --- 日期與倒數 ---
     function renderOverviewAndCountdown() {
-      // 頂部日期顯示
       const now = new Date();
       const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
       document.getElementById('currentDateDisplay').textContent = now.toLocaleDateString('zh-TW', options);
 
-      // 考試倒數
       document.getElementById('sideExamTitle').textContent = appData.exam.title;
       document.getElementById('overviewExamTitleDisplay').textContent = appData.exam.title;
       document.getElementById('overviewExamDateStr').textContent = appData.exam.date;
@@ -336,7 +350,6 @@
       document.getElementById('sideCountdownDays').textContent = `${diffDays} 天`;
       document.getElementById('overviewExamDays').textContent = dayText;
 
-      // 今日目標進度條
       const goalSec = appData.dailyGoalHours * 3600;
       const currentSec = appData.todayStudySeconds;
       const percent = Math.min(100, Math.round((currentSec / goalSec) * 100)) || 0;
@@ -355,6 +368,7 @@
         appData.exam.date = newDate;
         saveData();
         renderOverviewAndCountdown();
+        if (!document.getElementById('page-calendar').classList.contains('hidden')) renderCalendar();
       }
     }
 
@@ -367,7 +381,7 @@
       }
     }
 
-    // --- 月計畫日曆檢視 ---
+    // --- 月計畫日曆邏輯 ---
     function renderCalendar() {
       const year = currentCalendarDate.getFullYear();
       const month = currentCalendarDate.getMonth();
@@ -380,44 +394,118 @@
       const totalDays = new Date(year, month + 1, 0).getDate();
       const todayStr = new Date().toISOString().split('T')[0];
 
-      // 空白前置格子
       for (let i = 0; i < firstDayIndex; i++) {
         const emptyDiv = document.createElement('div');
-        emptyDiv.className = "h-24 bg-slate-50/50 rounded-xl border border-slate-100";
+        emptyDiv.className = "min-h-[100px] bg-slate-50/50 rounded-xl border border-slate-100";
         grid.appendChild(emptyDiv);
       }
 
-      // 當月日期格子
       for (let d = 1; d <= totalDays; d++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         const isToday = (dateStr === todayStr);
 
-        // 檢查這天是否有對應的考試或科目目標日期
         let badgeHtml = '';
         if (dateStr === appData.exam.date) {
-          badgeHtml += `<span class="block bg-rose-50 text-rose-600 text-[10px] px-1.5 py-0.5 rounded font-medium mt-1 truncate">🎯 ${appData.exam.title}</span>`;
+          badgeHtml += `<span class="block bg-rose-50 border border-rose-100 text-rose-600 text-[10px] px-1.5 py-0.5 rounded font-medium truncate">🎯 ${appData.exam.title}</span>`;
         }
         appData.subjects.forEach(s => {
           if (s.targetDate === dateStr) {
-            badgeHtml += `<span class="block bg-indigo-50 text-indigo-600 text-[10px] px-1.5 py-0.5 rounded font-medium mt-1 truncate">📖 ${s.name}</span>`;
+            badgeHtml += `<span class="block bg-indigo-50 border border-indigo-100 text-indigo-600 text-[10px] px-1.5 py-0.5 rounded font-medium truncate">📖 ${s.name}</span>`;
           }
         });
+        if (appData.plans && appData.plans[dateStr]) {
+          appData.plans[dateStr].forEach(p => {
+            badgeHtml += `<span class="block bg-emerald-50 border border-emerald-100 text-emerald-700 text-[10px] px-1.5 py-0.5 rounded font-medium truncate">📌 ${p}</span>`;
+          });
+        }
 
         const dayDiv = document.createElement('div');
-        dayDiv.className = `h-24 p-2 rounded-xl border flex flex-col justify-between overflow-hidden transition ${isToday ? 'border-indigo-500 bg-indigo-50/30 ring-2 ring-indigo-500/20' : 'border-slate-200 bg-white hover:border-slate-300'}`;
+        dayDiv.className = `min-h-[100px] p-2 rounded-xl border flex flex-col justify-between overflow-hidden cursor-pointer transition ${isToday ? 'border-indigo-500 bg-indigo-50/20 ring-2 ring-indigo-500/20' : 'border-slate-200 bg-white hover:border-indigo-300 hover:shadow-sm'}`;
+        dayDiv.onclick = () => openPlanModal(dateStr);
         dayDiv.innerHTML = `
-          <div class="flex justify-between items-center">
+          <div class="flex justify-between items-center mb-1">
             <span class="text-xs font-bold ${isToday ? 'bg-indigo-600 text-white w-5 h-5 rounded-full flex items-center justify-center' : 'text-slate-700'}">${d}</span>
+            <i data-lucide="plus" class="w-3.5 h-3.5 text-slate-300 hover:text-indigo-600"></i>
           </div>
-          <div class="overflow-y-auto flex-1 mt-1 space-y-1">${badgeHtml}</div>
+          <div class="overflow-y-auto flex-1 space-y-1">${badgeHtml}</div>
         `;
         grid.appendChild(dayDiv);
       }
+      lucide.createIcons();
     }
 
     function changeMonth(direction) {
       currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
       renderCalendar();
+    }
+
+    function goToCurrentMonth() {
+      currentCalendarDate = new Date();
+      renderCalendar();
+    }
+
+    // --- 點擊日曆彈出自訂行程 Modal ---
+    function openPlanModal(dateStr) {
+      selectedDateForModal = dateStr;
+      document.getElementById('modalPlanDateTitle').textContent = `${dateStr} 的排程與提醒`;
+      renderDatePlanList();
+      document.getElementById('datePlanModal').classList.remove('hidden');
+      document.getElementById('datePlanModal').classList.add('flex');
+    }
+
+    function closePlanModal() {
+      document.getElementById('datePlanModal').classList.add('hidden');
+      document.getElementById('datePlanModal').classList.remove('flex');
+      selectedDateForModal = null;
+    }
+
+    function renderDatePlanList() {
+      const listEl = document.getElementById('datePlanList');
+      listEl.innerHTML = '';
+      const items = (appData.plans && appData.plans[selectedDateForModal]) || [];
+      if (items.length === 0) {
+        listEl.innerHTML = '<li class="text-xs text-slate-400 py-2">目前沒有自訂行程，可於下方新增！</li>';
+        return;
+      }
+
+      items.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.className = "flex items-center justify-between text-xs p-2 bg-slate-50 border border-slate-100 rounded-lg text-slate-700";
+        li.innerHTML = `
+          <span>📌 ${item}</span>
+          <button onclick="deleteDatePlan(${index})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+        `;
+        listEl.appendChild(li);
+      });
+      lucide.createIcons();
+    }
+
+    function saveDatePlan(e) {
+      e.preventDefault();
+      const input = document.getElementById('newPlanInput');
+      const text = input.value.trim();
+      if (!text || !selectedDateForModal) return;
+
+      if (!appData.plans) appData.plans = {};
+      if (!appData.plans[selectedDateForModal]) appData.plans[selectedDateForModal] = [];
+      appData.plans[selectedDateForModal].push(text);
+
+      saveData();
+      input.value = '';
+      renderDatePlanList();
+      renderCalendar();
+    }
+
+    function deleteDatePlan(index) {
+      if (selectedDateForModal && appData.plans && appData.plans[selectedDateForModal]) {
+        appData.plans[selectedDateForModal].splice(index, 1);
+        if (appData.plans[selectedDateForModal].length === 0) {
+          delete appData.plans[selectedDateForModal];
+        }
+        saveData();
+        renderDatePlanList();
+        renderCalendar();
+      }
     }
 
     // --- To-do 任務管理 ---
@@ -428,8 +516,7 @@
 
       if (appData.todos.length === 0) {
         const emptyMsg = '<li class="text-sm text-slate-400 py-3 text-center">今天還沒有新增任務！</li>';
-        listEl.innerHTML = emptyMsg;
-        overviewList.innerHTML = emptyMsg;
+        listEl.innerHTML = emptyMsg; overviewList.innerHTML = emptyMsg;
         return;
       }
 
@@ -538,12 +625,14 @@
 
       appData.subjects.push({ id: Date.now().toString(), name, targetDate, targetHours, spentSeconds: 0 });
       saveData(); renderSubjects(); closeSubjectModal(); e.target.reset();
+      if (!document.getElementById('page-calendar').classList.contains('hidden')) renderCalendar();
     }
 
     function deleteSubject(id) {
       if (confirm('確定要刪除這個項目嗎？')) {
         appData.subjects = appData.subjects.filter(s => s.id !== id);
         saveData(); renderSubjects();
+        if (!document.getElementById('page-calendar').classList.contains('hidden')) renderCalendar();
       }
     }
 
